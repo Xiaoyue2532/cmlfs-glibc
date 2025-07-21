@@ -1,5 +1,7 @@
 # Glibc-2.41 from azanella/clang
 
+build glibc with newly built gcc
+
 ```shell
 ln -sfv ../lib/ld-linux-x86-64.so.2 /lfs/lib64
 ln -sfv ../lib/ld-linux-x86-64.so.2 /lfs/lib64/ld-lsb-x86-64.so.3
@@ -18,20 +20,20 @@ echo "rootsbindir=/usr/sbin" > configparms
     --disable-werror \
     --disable-nscd \
     libc_cv_slibdir=/usr/lib \
-    CC=x86_64-pc-linux-gnu-clang \
-    CXX=x86_64-pc-linux-gnu-clang++ \
-    OBJDUMP=llvm-objdump \
-    OBJCOPY=llvm-objcopy \
-    READELF=llvm-readelf \
-    RANLIB=llvm-ranlib \
-    STRIP=llvm-strip \
-    SIZE=llvm-size \
-    NM=llvm-nm \
-    AR=llvm-ar \
-    AS=llvm-as \
-    LD=ld.lld
+    CC=/lfs/tools/bin/gcc \
+    CXX=/lfs/tools/bin/g++ \
+    OBJDUMP=/lfs/tools/bin/objdump \
+    OBJCOPY=/lfs/tools/bin/objcopy \
+    READELF=/lfs/tools/bin/readelf \
+    RANLIB=/lfs/tools/bin/ranlib \
+    STRIP=/lfs/tools/bin/strip \
+    SIZE=/lfs/tools/bin/size \
+    NM=/lfs/tools/bin/nm \
+    AR=/lfs/tools/bin/ar \
+    AS=/lfs/tools/bin/as \
+    LD=/lfs/tools/bin/ld
 
-make && make DESTDIR=/lfs install
+make && make DESTDIR=/lfs/tools install
 
 sed '/RTLDLIST=/s@/usr@@g' -i /lfs/usr/bin/ldd
 
